@@ -23,7 +23,7 @@ jobs:
       run:
         shell: bash
 
-    name: 'Compile Wgrig2'
+    name: 'Compile WGRIB2'
     # The type of runner that the job will run on
     runs-on: windows-2019
     env:
@@ -38,12 +38,13 @@ jobs:
         fetch-depth: 0
 
     - name: Get Cygwin
-      id: buildSMKImage
+      id: getCygwin
+      shell: powershell
       run: |
-        powershell .\cygwin-conf.ps1
+        .\cygwin-conf.ps1
 
     - name: Compile wgrib2
-      id: buildSMKImage
+      id: compileWgrib2
       shell: powershell
       run: |
         & .\cygdir\bin\bash.exe -c build-wgrib2.sh
