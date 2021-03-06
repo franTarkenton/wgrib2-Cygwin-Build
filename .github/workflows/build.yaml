@@ -62,7 +62,7 @@ jobs:
 
     - name: Compile wgrib2
       id: compileWgrib2
-      shell: cmd
+      shell: bash
       run: |
         dir
         C:\tools\cygwin\bin\bash.exe -c "./build-wgrib2.sh"
