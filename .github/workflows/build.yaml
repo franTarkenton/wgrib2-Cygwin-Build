@@ -39,13 +39,13 @@ jobs:
 
     - name: Get Cygwin
       id: getCygwin
-      shell: bash
+      shell: powershell
       run: |
         .\cygwin-conf.ps1
 
     - name: evaluteCygwin
       id: evaluteCygwin
-      shell: powershell
+      shell: bash
       run: |
         ls -l
         cd cygdir
