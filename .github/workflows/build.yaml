@@ -37,11 +37,18 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Get Cygwin
-      id: getCygwin
-      shell: powershell
-      run: |
-        .\cygwin-conf.ps1
+    # - name: Get Cygwin
+    #   id: getCygwin
+    #   shell: powershell
+    #   run: |
+    #     .\cygwin-conf.ps1
+
+    - name: Set up Cygwin
+      uses: egor-tensin/setup-cygwin@v3
+      with:
+        platform: x64
+        packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
+
 
     - name: evaluteCygwin
       id: evaluteCygwin
@@ -58,4 +65,4 @@ jobs:
       shell: powershell
       run: |
         ls
-        & .\cygdir\bin\bash.exe -c build-wgrib2.sh
+        & C:\tools\cygwin\bin\bash.exe -c .\build-wgrib2.sh
