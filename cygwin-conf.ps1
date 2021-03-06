@@ -38,7 +38,7 @@ unzip, `
 wget, `
 curl, `
 nano, `
-cygport, \
+cygport, `
 zlib
 
 
