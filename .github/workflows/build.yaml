@@ -58,10 +58,17 @@ jobs:
         C:\tools\cygwin\bin\dos2unix build-wgrib2.sh
         C:\tools\cygwin\bin\bash.exe -c "./build-wgrib2.sh"
 
-    - name: copy wgrib2 artifact
-      id: copyWgrib2Artivact
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+    - name: create artifact
+      id: createWgrib2Artifact
+      shell: cmd
       run: |
         cd wgrib-cyg
-        tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz
+        C:\tools\cygwin\bin\bash.exe -c "tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz"
+
+    - name: upload artifact
+      id: uploadWgrib2Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: wgrib2-cygwin-binary
+        path: wgrib-cyg.tgz
         
