@@ -42,9 +42,12 @@ jobs:
       shell: powershell
       run: |
         .\cygwin-conf.ps1
+        pwd
+        ls
 
     - name: Compile wgrib2
       id: compileWgrib2
       shell: powershell
       run: |
+        ls
         & .\cygdir\bin\bash.exe -c build-wgrib2.sh
