@@ -48,7 +48,7 @@ jobs:
       with:
         platform: x64
         packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
-
+        hardlinks: 1
 
     # - name: evaluteCygwin
     #   id: evaluteCygwin
