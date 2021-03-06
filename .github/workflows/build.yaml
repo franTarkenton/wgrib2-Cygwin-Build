@@ -62,7 +62,15 @@ jobs:
 
     - name: Compile wgrib2
       id: compileWgrib2
+      shell: cmd
+      run: |
+        dir
+        C:\tools\cygwin\bin\bash.exe -c "./build-wgrib2.sh"
+
+    - name: copy wgrib2 artifact
+      id: copyWgrib2Artivact
       shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
       run: |
-        ls
-        bash.exe ./build-wgrib2.sh
+        cd wgrib-cyg
+        tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz
+        
