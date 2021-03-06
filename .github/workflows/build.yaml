@@ -50,15 +50,15 @@ jobs:
         packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
 
 
-    - name: evaluteCygwin
-      id: evaluteCygwin
-      shell: bash
-      run: |
-        ls -l
-        cd cygdir
-        ls -l
-        cd bin
-        ls -l
+    # - name: evaluteCygwin
+    #   id: evaluteCygwin
+    #   shell: bash
+    #   run: |
+    #     ls -l
+    #     cd cygdir
+    #     ls -l
+    #     cd bin
+    #     ls -l
 
     - name: Compile wgrib2
       id: compileWgrib2
