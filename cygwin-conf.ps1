@@ -22,11 +22,12 @@ wget http://cygwin.com/setup-x86_64.exe -o $cygSetup
 & $cygSetup `
 --no-admin `
 --local-package-dir $cygpackages `
---site http://muug.ca/mirror/cygwin `
+--site http://cygwin.mirrors.pair.com/ `
 --root $cygdir `
 --verbose `
 --quiet-mode `
 --no-startmenu `
+--disable-buggy-antivirus `
 --packages `
 awk, `
 make, `
