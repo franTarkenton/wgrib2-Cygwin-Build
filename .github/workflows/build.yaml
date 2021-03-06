@@ -62,7 +62,7 @@ jobs:
 
     - name: Compile wgrib2
       id: compileWgrib2
-      shell: powershell
+      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
       run: |
         ls
-        & C:\tools\cygwin\bin\bash.exe -c .\build-wgrib2.sh
+        bash.exe ./build-wgrib2.sh
