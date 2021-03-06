@@ -41,20 +41,17 @@ jobs:
       id: getCygwin
       shell: bash
       run: |
-        ls -l
-        cd cygdir
-        ls -l
-        cd bin
-        ls -l
+        .\cygwin-conf.ps1
 
     - name: evaluteCygwin
       id: evaluteCygwin
       shell: powershell
       run: |
-        .\cygwin-conf.ps1
-        pwd
-        ls
-
+        ls -l
+        cd cygdir
+        ls -l
+        cd bin
+        ls -l
 
     - name: Compile wgrib2
       id: compileWgrib2
