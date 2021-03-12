@@ -73,7 +73,7 @@ jobs:
         path: wgrib-cyg.tgz
         
 
-    - uses: Shopify/upload-to-release@v1
+    - uses: Shopify/upload-to-release@v1.0.1
       with:
         name: wgrib2
         path: wgrib-cyg.tgz
