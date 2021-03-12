@@ -65,17 +65,31 @@ jobs:
         cd wgrib-cyg
         C:\tools\cygwin\bin\bash.exe -c "tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz"
 
-    - name: upload artifact
-      id: uploadWgrib2Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: wgrib2-cygwin-binary
-        path: wgrib-cyg.tgz
-        
+    - id: calculateRelease
+      name: calculate Release Tag
+      shell: bash
+      run: |
+        RELEASETAG=$(date +%Y%m%d-%H%M)
+        echo ::set-output name=RELEASETAG::${RELEASETAG}
 
-    - uses: Shopify/upload-to-release@v1.0.1
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
       with:
-        name: wgrib2
-        path: wgrib-cyg.tgz
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        #content-type: text/plain # Optional
+        draft: false
+        prerelease: false
+        release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: wgrib-cyg.tgz
+        asset_name: wgrib-cyg.tgz
+        asset_content_type: application/zip
