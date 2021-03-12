@@ -72,3 +72,10 @@ jobs:
         name: wgrib2-cygwin-binary
         path: wgrib-cyg.tgz
         
+
+    - uses: Shopify/upload-to-release@v1
+      with:
+        name: wgrib2
+        path: wgrib-cyg.tgz
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        #content-type: text/plain # Optional
