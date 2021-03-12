@@ -79,7 +79,7 @@ jobs:
         draft: false
         prerelease: false
         release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
-        tag_name: ${{ github.ref }}
+        tag_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
         body: wgrib 2 release
       env:
         GITHUB_TOKEN: ${{ github.token }}
