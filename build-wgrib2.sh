@@ -21,7 +21,7 @@ then
         #curl --retry 5 https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz -o wgrib2.tgz
 
         # trying wget instead
-        wget https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz -O=wgrib2.tgz
+        wget https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz -O wgrib2.tgz
     fi
     if [ -d "$grib2Dir" ]
     then

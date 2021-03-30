@@ -3,7 +3,6 @@ name: wgrib2-cygwin-compile
 # used on push for testing / development
 # on:
 #   push:
-    
 
 on:
   pull_request:
