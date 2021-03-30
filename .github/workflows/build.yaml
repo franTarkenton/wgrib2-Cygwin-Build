@@ -1,20 +1,20 @@
 name: wgrib2-cygwin-compile
 
 # used on push for testing / development
-# on:
-#   push:
+on:
+  push:
     
 
-on:
-  pull_request:
-    # debug: remove the dev,putting build action on non existent branches for debug
-    branches: ['master', 'main']
-    types: ['opened', 'reopened']
-    paths-ignore:
-      - .gitignore
-      - LICENSE
-      - README.md
-      - code_of_conduct.md
+# on:
+#   pull_request:
+#     # debug: remove the dev,putting build action on non existent branches for debug
+#     branches: ['master', 'main']
+#     types: ['opened', 'reopened']
+#     paths-ignore:
+#       - .gitignore
+#       - LICENSE
+#       - README.md
+#       - code_of_conduct.md
       
 jobs:
   # This workflow contains a single job called "buildjob"
@@ -45,12 +45,12 @@ jobs:
 
     # gets cygwin and installs the build dependencies required to download
     # a cygwin env that will be used to build wgrib2
-    - name: Set up Cygwin
-      uses: egor-tensin/setup-cygwin@v3
-      with:
-        platform: x64
-        packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
-        hardlinks: 1
+    # - name: Set up Cygwin
+    #   uses: egor-tensin/setup-cygwin@v3
+    #   with:
+    #     platform: x64
+    #     packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
+    #     hardlinks: 1
 
     # runs the shell script that will download the wgrib2 source
     # files and then compile them
@@ -104,4 +104,3 @@ jobs:
         asset_path: wgrib-cyg.tgz
         asset_name: wgrib-cyg.tgz
         asset_content_type: application/zip
-        
