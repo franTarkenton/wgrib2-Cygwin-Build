@@ -1,23 +1,23 @@
 name: wgrib2-cygwin-compile
 
 # used on push for testing / development
-on:
-  push:
+# on:
+#   push:
     
 
-# on:
-#   pull_request:
-#     # debug: remove the dev,putting build action on non existent branches for debug
-#     branches: ['master', 'main']
-#     types: ['opened', 'reopened']
-#     paths-ignore:
-#       - .gitignore
-#       - LICENSE
-#       - README.md
-#       - code_of_conduct.md
+on:
+  pull_request:
+    # debug: remove the dev,putting build action on non existent branches for debug
+    branches: ['master', 'main']
+    types: ['opened', 'reopened']
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - README.md
+      - code_of_conduct.md
       
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job called "buildjob"
   buildjob:
     defaults:
       run:
@@ -43,6 +43,8 @@ jobs:
     #   run: |
     #     .\cygwin-conf.ps1
 
+    # gets cygwin and installs the build dependencies required to download
+    # a cygwin env that will be used to build wgrib2
     - name: Set up Cygwin
       uses: egor-tensin/setup-cygwin@v3
       with:
@@ -50,6 +52,8 @@ jobs:
         packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
         hardlinks: 1
 
+    # runs the shell script that will download the wgrib2 source
+    # files and then compile them
     - name: Compile wgrib2
       id: compileWgrib2
       shell: cmd
@@ -58,6 +62,8 @@ jobs:
         C:\tools\cygwin\bin\dos2unix build-wgrib2.sh
         C:\tools\cygwin\bin\bash.exe -c "./build-wgrib2.sh"
 
+    # creates a tarball of the compiled wgrib dependencies that will
+    # get uploaded
     - name: create artifact
       id: createWgrib2Artifact
       shell: cmd
@@ -65,6 +71,8 @@ jobs:
         cd wgrib-cyg
         C:\tools\cygwin\bin\bash.exe -c "tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz"
 
+    # calculates a release tag and sets the variable RELEASETAG
+    # to be equal to it.
     - id: calculateRelease
       name: calculate Release Tag
       shell: bash
@@ -72,6 +80,8 @@ jobs:
         RELEASETAG=$(date +%Y%m%d-%H%M)
         echo ::set-output name=RELEASETAG::${RELEASETAG}
 
+    # creates an actual release on the current commit, the tag is 
+    # the tag calculate in the previous step (based on timestamp)
     - name: release
       uses: actions/create-release@v1
       id: create_release
@@ -84,6 +94,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
+    # uploads the compiled wgrib tarball to the github release
     - name: upload windows artifact
       uses: actions/upload-release-asset@v1
       env:
@@ -93,3 +104,4 @@ jobs:
         asset_path: wgrib-cyg.tgz
         asset_name: wgrib-cyg.tgz
         asset_content_type: application/zip
+        
