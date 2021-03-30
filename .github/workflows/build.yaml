@@ -45,12 +45,12 @@ jobs:
 
     # gets cygwin and installs the build dependencies required to download
     # a cygwin env that will be used to build wgrib2
-    # - name: Set up Cygwin
-    #   uses: egor-tensin/setup-cygwin@v3
-    #   with:
-    #     platform: x64
-    #     packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
-    #     hardlinks: 1
+    - name: Set up Cygwin
+      uses: egor-tensin/setup-cygwin@v3
+      with:
+        platform: x64
+        packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
+        hardlinks: 1
 
     # runs the shell script that will download the wgrib2 source
     # files and then compile them
