@@ -40,7 +40,8 @@ jobs:
         export CC=gcc
         export FC=gfortran
         make
-        cp grib2/wgrib2 .
+        ls -la *
+        cp wgrib2/wgrib2 ../.
 
     # calculates a release tag and sets the variable RELEASETAG
     # to be equal to it.
