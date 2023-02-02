@@ -1,8 +1,8 @@
 name: wgrib2-ubuntu-compile
 
 # manual run
-on:
-  workflow_dispatch:
+# on:
+#   workflow_dispatch:
 
 on:
   push:
