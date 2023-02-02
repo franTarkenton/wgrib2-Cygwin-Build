@@ -1,37 +1,21 @@
-name: wgrib2-cygwin-compile
+name: wgrib2-ubuntu-compile
 
-# used on push for testing / development
-# on:
-#   push:
-
+# manual run
 on:
   workflow_dispatch:
 
-# on:
-#   pull_request:
-#     # debug: remove the dev,putting build action on non existent branches for debug
-#     branches: ['master', 'main']
-#     types: ['opened', 'reopened']
-#     paths-ignore:
-#       - .gitignore
-#       - LICENSE
-#       - README.md
-#       - code_of_conduct.md
-      
 jobs:
   # This workflow contains a single job called "buildjob"
   buildjob:
     defaults:
       run:
         shell: bash
-
     name: 'Compile WGRIB2'
     # The type of runner that the job will run on
-    runs-on: windows-2019
+    runs-on: ubuntu-22.04
     env:
       CC: gcc
       FC: gfortran
-      
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
@@ -39,39 +23,20 @@ jobs:
       with:
         fetch-depth: 0
 
-    # - name: Get Cygwin
-    #   id: getCygwin
-    #   shell: powershell
-    #   run: |
-    #     .\cygwin-conf.ps1
-
-    # gets cygwin and installs the build dependencies required to download
-    # a cygwin env that will be used to build wgrib2
-    - name: Set up Cygwin
-      uses: egor-tensin/setup-cygwin@v3
-      with:
-        platform: x64
-        packages: cmake awk make gcc-core gcc-fortran gcc-g++ make unzip wget curl nano cygport zlib
-        hardlinks: 1
-
     # runs the shell script that will download the wgrib2 source
     # files and then compile them
-    - name: Compile wgrib2
-      id: compileWgrib2
-      shell: cmd
+    - name: get and compile wgrib2
+      id: get-compile-wgrib
+      shell: bash
       run: |
-        dir
-        C:\tools\cygwin\bin\dos2unix build-wgrib2.sh
-        C:\tools\cygwin\bin\bash.exe -c "./build-wgrib2.sh"
-
-    # creates a tarball of the compiled wgrib dependencies that will
-    # get uploaded
-    - name: create artifact
-      id: createWgrib2Artifact
-      shell: cmd
-      run: |
-        cd wgrib-cyg
-        C:\tools\cygwin\bin\bash.exe -c "tar -cvf - grib2 | gzip > ../wgrib-cyg.tgz"
+        apt install -y build-essential libaec-dev zlib1g-dev libcurl4-openssl-dev libboost-dev curl wget zip unzip bzip2 gfortran gcc g++
+        wget -c ftp://ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz
+        tar -xzvf wgrib2.tgz
+        cd grib2
+        export CC=gcc
+        export FC=gfortran
+        make
+        cp grib2/wgrib2 .
 
     # calculates a release tag and sets the variable RELEASETAG
     # to be equal to it.
@@ -92,17 +57,17 @@ jobs:
         prerelease: false
         release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
         tag_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
-        body: wgrib 2 release
+        body: wgrib 2 ubuntu release
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
     # uploads the compiled wgrib tarball to the github release
-    - name: upload windows artifact
+    - name: upload ubuntu artifact
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: wgrib-cyg.tgz
-        asset_name: wgrib-cyg.tgz
-        asset_content_type: application/zip
+        asset_path: wgrib2
+        asset_name: wgrib2
+        asset_content_type: application/octet-stream
