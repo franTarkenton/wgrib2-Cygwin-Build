@@ -16,7 +16,7 @@ jobs:
         shell: bash
     name: 'Compile WGRIB2'
     # The type of runner that the job will run on
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     env:
       CC: gcc
       FC: gfortran
@@ -60,7 +60,7 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
+        release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}-wgrib-ubuntu-2204
         tag_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
         body: wgrib 2 ubuntu release
       env:
