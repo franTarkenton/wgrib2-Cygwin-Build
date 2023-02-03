@@ -1,11 +1,11 @@
 name: wgrib2-ubuntu-compile
 
 # manual run
-# on:
-#   workflow_dispatch:
-
 on:
-  push:
+  workflow_dispatch:
+
+# on:
+#   push:
 
 
 jobs:
@@ -60,7 +60,7 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}-wgrib-ubuntu-2204
+        release_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}-wgrib-ubuntu-2004
         tag_name: ${{ steps.calculateRelease.outputs.RELEASETAG }}
         body: wgrib 2 ubuntu release
       env:
